@@ -1,0 +1,12 @@
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: tech-test-factorial123
+      POSTGRES_USER: marcus_admin
+      POSTGRES_DB: marcus
+    ports:
+      - "5432:5432"
