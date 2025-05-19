@@ -8,7 +8,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserEntityMapper implements PaginationMapper<User, UserEntity> {
+public class UserPaginationMapper implements PaginationMapper<User, UserEntity> {
 
   @Override
   public Page<User> toDomain(

@@ -1,5 +1,7 @@
 package com.marcus.user.infrastructure.jpa.spec;
 
+import static com.marcus.pagination.domain.constant.PaginationConstant.LIKE_PATTERN;
+
 import com.marcus.user.infrastructure.jpa.criteria.UserCriteria;
 import com.marcus.user.infrastructure.jpa.entity.UserEntity;
 import jakarta.persistence.criteria.*;
@@ -11,7 +13,6 @@ import org.springframework.data.jpa.domain.Specification;
 @AllArgsConstructor
 public class UserSpecification implements Specification<UserEntity> {
 
-  private static final String LIKE_PATTERN = "%";
   private transient UserCriteria criteria;
 
   @Override

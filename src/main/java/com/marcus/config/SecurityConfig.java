@@ -53,6 +53,8 @@ public class SecurityConfig {
                         ApiUrlConstant.PRODUCT_URL + ApiUrlConstant.ALL_URLS,
                         ApiUrlConstant.PRODUCT_URL)
                     .permitAll()
+                    .requestMatchers(ApiUrlConstant.PRODUCT_URL + ApiUrlConstant.SEARCH_PATH)
+                    .permitAll()
                     .requestMatchers(
                         ApiUrlConstant.USER_URL + ApiUrlConstant.ALL_URLS, ApiUrlConstant.USER_URL)
                     .hasAnyRole(ADMIN.name())

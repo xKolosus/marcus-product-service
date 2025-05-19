@@ -3,6 +3,7 @@ package com.marcus.category.domain.mapper;
 import com.marcus.category.domain.model.Category;
 import com.marcus.category.infrastructure.controller.in.CategoryRequest;
 import com.marcus.category.infrastructure.jpa.entity.CategoryEntity;
+import com.marcus.subcategory.domain.mapper.SubCategoryMapper;
 import java.util.List;
 
 public class CategoryMapper {
@@ -18,7 +19,12 @@ public class CategoryMapper {
 
     public static Category toDomain(CategoryEntity category) {
 
-        return new Category(category.getId(), category.getName(), category.getDescription(), category.isEnabled());
+    return new Category(
+        category.getId(),
+        category.getName(),
+        category.getDescription(),
+        category.isEnabled(),
+        SubCategoryMapper.toDomain(category.getSubCategories()));
     }
 
   public static CategoryEntity toEntity(CategoryRequest request) {

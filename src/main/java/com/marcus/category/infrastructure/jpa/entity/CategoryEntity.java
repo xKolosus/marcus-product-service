@@ -1,6 +1,8 @@
 package com.marcus.category.infrastructure.jpa.entity;
 
+import com.marcus.subcategory.infrastructure.jpa.entity.SubCategoryEntity;
 import jakarta.persistence.*;
+import java.util.List;
 import java.util.UUID;
 import lombok.*;
 
@@ -25,4 +27,7 @@ public class CategoryEntity {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+  @OneToMany(mappedBy = "category")
+  List<SubCategoryEntity> subCategories;
 }

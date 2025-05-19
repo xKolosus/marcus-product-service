@@ -7,7 +7,7 @@ import com.marcus.user.domain.model.User;
 import com.marcus.user.domain.service.UserService;
 import com.marcus.user.infrastructure.controller.in.UserRequest;
 import com.marcus.user.infrastructure.jpa.criteria.UserCriteria;
-import com.marcus.user.infrastructure.jpa.mapper.UserEntityMapper;
+import com.marcus.user.infrastructure.jpa.mapper.UserPaginationMapper;
 import com.marcus.user.infrastructure.jpa.repository.UserJpaRepository;
 import com.marcus.user.infrastructure.jpa.spec.UserSpecification;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class DefaultUserService implements UserService {
 
   private final UserJpaRepository userJpaRepository;
-  private final UserEntityMapper userEntityMapper;
+  private final UserPaginationMapper userPaginationMapper;
 
   @Override
   public void deleteUserById(UUID userId) {
@@ -35,7 +35,7 @@ public class DefaultUserService implements UserService {
   @Override
   public Page<User> getUsers(UserRequest request) {
 
-    return userEntityMapper.toDomain(
+    return userPaginationMapper.toDomain(
         userJpaRepository.findAll(
             new UserSpecification(new UserCriteria(request.getSearchBy())),
             PaginationMapper.toPageRequest(request)),

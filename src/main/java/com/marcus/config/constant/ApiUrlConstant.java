@@ -8,6 +8,7 @@ public class ApiUrlConstant {
   public static final String AUTH_URL = "/auth";
   public static final String PRODUCT_URL = "/product";
   public static final String USER_URL = "/user";
+  public static final String SEARCH_PATH = "/search";
 
   private ApiUrlConstant() {}
 }
