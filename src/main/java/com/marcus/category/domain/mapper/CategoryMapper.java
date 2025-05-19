@@ -1,8 +1,8 @@
 package com.marcus.category.domain.mapper;
 
 import com.marcus.category.domain.model.Category;
+import com.marcus.category.infrastructure.controller.in.CategoryRequest;
 import com.marcus.category.infrastructure.jpa.entity.CategoryEntity;
-
 import java.util.List;
 
 public class CategoryMapper {
@@ -20,4 +20,13 @@ public class CategoryMapper {
 
         return new Category(category.getId(), category.getName(), category.getDescription(), category.isEnabled());
     }
+
+  public static CategoryEntity toEntity(CategoryRequest request) {
+
+    return CategoryEntity.builder()
+        .name(request.name())
+        .description(request.description())
+        .enabled(request.enabled())
+        .build();
+  }
 }

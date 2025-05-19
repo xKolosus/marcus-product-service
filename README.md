@@ -39,3 +39,8 @@ Flyway
 Thanks for taking your time to review the project!
 
 Cosmin Constantin, Chirila.
+
+# ADMIN Credentials
+
+Email set in flyway V3.
+Password should be: adminPassword123.
