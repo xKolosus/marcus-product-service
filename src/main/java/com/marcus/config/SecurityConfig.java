@@ -57,16 +57,20 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(
                         ApiUrlConstant.USER_URL + ApiUrlConstant.ALL_URLS, ApiUrlConstant.USER_URL)
-                    .hasAnyRole(ADMIN.name())
+                    .hasRole(ADMIN.name())
                     .requestMatchers(POST, ApiUrlConstant.CATEGORY_URL, ApiUrlConstant.PRODUCT_URL)
-                    .hasAnyRole(ADMIN.name())
+                    .hasRole(ADMIN.name())
                     .requestMatchers(PUT, ApiUrlConstant.CATEGORY_URL, ApiUrlConstant.PRODUCT_URL)
-                    .hasAnyRole(ADMIN.name())
+                    .hasRole(ADMIN.name())
                     .requestMatchers(
                         DELETE,
                         ApiUrlConstant.CATEGORY_URL + ApiUrlConstant.ALL_URLS,
                         ApiUrlConstant.PRODUCT_URL + ApiUrlConstant.ALL_URLS)
-                    .hasAnyRole(ADMIN.name())
+                    .hasRole(ADMIN.name())
+                    .requestMatchers(
+                        ApiUrlConstant.PURCHASE_URL,
+                        ApiUrlConstant.PURCHASE_URL + ApiUrlConstant.ALL_URLS)
+                    .hasRole(USER.name())
                     .anyRequest()
                     .authenticated())
         .exceptionHandling(

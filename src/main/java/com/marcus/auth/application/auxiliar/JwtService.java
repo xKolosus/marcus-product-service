@@ -1,5 +1,6 @@
 package com.marcus.auth.application.auxiliar;
 
+import com.marcus.user.infrastructure.jpa.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -8,9 +9,11 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +33,23 @@ public class JwtService {
     return extractClaim(token, Claims::getSubject);
   }
 
+  public static UUID getLoggedUserId() {
+
+    if (SecurityContextHolder.getContext().getAuthentication() == null) {
+      throw new IllegalArgumentException("No auth has been done!");
+    }
+
+    return ((UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+        .getId();
+  }
+
   public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-    final Claims claims = extractAllClaims(token);
+    Claims claims = extractAllClaims(token);
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails) {
-    return generateToken(new HashMap<>(), userDetails);
-  }
-
-  public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-    return buildToken(extraClaims, userDetails, jwtExpiration);
+  public String generateToken(UserDetails userDetails, UUID userId) {
+    return generateToken(Map.of("userId", userId), userDetails);
   }
 
   public String generateRefreshToken(UserDetails userDetails) {
@@ -59,6 +68,10 @@ public class JwtService {
         .expiration(new Date(issuedAt + expiration))
         .signWith(getSignInKey())
         .compact();
+  }
+
+  private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    return buildToken(extraClaims, userDetails, jwtExpiration);
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {

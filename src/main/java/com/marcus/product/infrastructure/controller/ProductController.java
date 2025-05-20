@@ -33,11 +33,12 @@ public class ProductController {
 
   @PostMapping("/search")
   @Operation(
-      description = "This retrieves the products filtered",
-      summary =
+      summary = "This retrieves the products filtered",
+      description =
           """
     All users are allowed to receive this data.
     Important, the possible filters are:
+
           · By category.
           · By subcategory.
           · By text field (name and description match)

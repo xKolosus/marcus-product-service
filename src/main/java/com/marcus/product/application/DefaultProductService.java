@@ -1,7 +1,7 @@
 package com.marcus.product.application;
 
 import com.marcus.pagination.domain.model.Page;
-import com.marcus.pagination.domain.model.PaginationMapper;
+import com.marcus.pagination.mapper.PaginationMapper;
 import com.marcus.product.domain.mapper.ProductMapper;
 import com.marcus.product.domain.model.Product;
 import com.marcus.product.domain.service.ProductService;

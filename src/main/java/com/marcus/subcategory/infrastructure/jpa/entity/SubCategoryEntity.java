@@ -16,7 +16,8 @@ import lombok.*;
 @AllArgsConstructor
 public class SubCategoryEntity {
 
-  @OneToMany List<ProductEntity> products;
+  @OneToMany(mappedBy = "subCategory")
+  List<ProductEntity> products;
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

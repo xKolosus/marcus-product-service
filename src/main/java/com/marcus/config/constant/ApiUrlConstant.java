@@ -1,5 +1,6 @@
 package com.marcus.config.constant;
 
+
 public class ApiUrlConstant {
 
   public static final String ALL_URLS = "/**";
@@ -9,6 +10,7 @@ public class ApiUrlConstant {
   public static final String PRODUCT_URL = "/product";
   public static final String USER_URL = "/user";
   public static final String SEARCH_PATH = "/search";
+  public static final String PURCHASE_URL = "/purchase";
 
   private ApiUrlConstant() {}
 }

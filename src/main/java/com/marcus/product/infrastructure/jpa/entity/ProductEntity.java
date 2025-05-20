@@ -1,9 +1,12 @@
 package com.marcus.product.infrastructure.jpa.entity;
 
 import com.marcus.subcategory.infrastructure.jpa.entity.SubCategoryEntity;
+import io.hypersistence.utils.hibernate.type.money.MonetaryAmountType;
 import jakarta.persistence.*;
 import java.util.UUID;
+import javax.money.MonetaryAmount;
 import lombok.*;
+import org.hibernate.annotations.CompositeType;
 
 @Entity
 @Table(name = "product")
@@ -28,4 +31,12 @@ public class ProductEntity {
   private String photoUrl;
 
   @ManyToOne private SubCategoryEntity subCategory;
+
+  @Column(name = "stock")
+  private long stock;
+
+  @AttributeOverride(name = "amount", column = @Column(name = "amount"))
+  @AttributeOverride(name = "currency", column = @Column(name = "currency"))
+  @CompositeType(MonetaryAmountType.class)
+  private MonetaryAmount price;
 }

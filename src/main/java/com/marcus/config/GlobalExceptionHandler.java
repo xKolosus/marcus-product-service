@@ -2,6 +2,7 @@ package com.marcus.config;
 
 import com.marcus.auth.application.exception.UserAlreadyRegisteredException;
 import com.marcus.config.exception.ResourceNotFoundException;
+import com.marcus.purchase.exception.PurchaseFailedException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,5 +108,16 @@ public class GlobalExceptionHandler {
     response.put(CAUSE, ex.getMessage());
 
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+  }
+
+  @ExceptionHandler(PurchaseFailedException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  public ResponseEntity<Map<String, Object>> handlePurchaseFailedException(
+      PurchaseFailedException ex) {
+    Map<String, Object> response = new HashMap<>();
+    response.put(ERROR, "Purchase not done");
+    response.put(CAUSE, ex.getMessage());
+
+    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
   }
 }

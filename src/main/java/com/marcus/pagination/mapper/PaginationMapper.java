@@ -1,8 +1,11 @@
-package com.marcus.pagination.domain.model;
+package com.marcus.pagination.mapper;
 
 import static java.util.Objects.isNull;
 
 import java.util.function.Function;
+
+import com.marcus.pagination.domain.model.Page;
+import com.marcus.pagination.domain.model.PageCount;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 

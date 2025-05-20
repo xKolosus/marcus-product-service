@@ -60,7 +60,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.email(), request.password()));
     UserEntity user = userJpaRepository.findByEmail(request.email()).orElseThrow();
-    String jwtToken = jwtService.generateToken(user);
+    String jwtToken = jwtService.generateToken(user, user.getId());
     String refreshToken = jwtService.generateRefreshToken(user);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
@@ -83,7 +83,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
     if (userEmail != null) {
       UserEntity user = userJpaRepository.findByEmail(userEmail).orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
-        String accessToken = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user, user.getId());
         AuthenticationResponse authResponse =
             AuthenticationResponse.builder()
                 .accessToken(accessToken)

@@ -28,8 +28,8 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   @Operation(
-      description = "Endpoint that'll allow a new user to be registered in our database.",
-      summary =
+      summary = "Endpoint that'll allow a new user to be registered in our database.",
+      description =
           "This generates a new user row in our database, a simple user, no admin is allowed to be created by hand.")
   public ResponseEntity<User> register(@RequestBody @Valid RegisterRequest request) {
     return ResponseEntity.ok(service.register(request));
@@ -37,8 +37,8 @@ public class AuthenticationController {
 
   @PostMapping("/authenticate")
   @Operation(
-      description = "Endpoint that through an email and password will retrieve a token.",
-      summary =
+      summary = "Endpoint that through an email and password will retrieve a token.",
+      description =
           "Retrieves an access token that last till 1 hour, and a refresh token that works a little bit more.")
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody @Valid AuthenticationRequest request) {
@@ -47,8 +47,8 @@ public class AuthenticationController {
 
   @PostMapping("/refresh-token")
   @Operation(
-      description = "Endpoint that would invalidate previous token, and generate a new one.",
-      summary =
+      summary = "Endpoint that would invalidate previous token, and generate a new one.",
+      description =
           """
       This endpoint is not necessary really in this use case, but if we would audit the tokens or something like that,
       we would be allowed to only set the last one active, and the others won't work anymore.

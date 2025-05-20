@@ -6,6 +6,8 @@ import com.marcus.product.infrastructure.jpa.entity.ProductEntity;
 import com.marcus.subcategory.domain.mapper.SubCategoryMapper;
 import com.marcus.subcategory.infrastructure.jpa.entity.SubCategoryEntity;
 import java.util.List;
+import javax.money.MonetaryAmount;
+import org.javamoney.moneta.Money;
 
 public class ProductMapper {
 
@@ -22,7 +24,13 @@ public class ProductMapper {
         entity.getName(),
         entity.getDescription(),
         SubCategoryMapper.toDomain(entity.getSubCategory()),
-        entity.getPhotoUrl());
+        entity.getPhotoUrl(),
+        getFormattedPrice(entity.getPrice()));
+  }
+
+  private static String getFormattedPrice(MonetaryAmount price) {
+
+    return price.getNumber().doubleValueExact() + price.getCurrency().getCurrencyCode();
   }
 
   public static ProductEntity toEntity(ProductRequest request, SubCategoryEntity subCategory) {
@@ -31,6 +39,8 @@ public class ProductMapper {
         .name(request.name())
         .description(request.description())
         .subCategory(subCategory)
+        .price(
+            Money.of(request.monetaryAmount().getNumber(), request.monetaryAmount().getCurrency()))
         .build();
   }
 }

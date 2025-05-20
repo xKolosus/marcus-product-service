@@ -1,8 +1,10 @@
 package com.marcus.user.infrastructure.jpa.entity;
 
+import com.marcus.purchase.infrastructure.jpa.entity.PurchaseEntity;
 import com.marcus.user.domain.model.Role;
 import jakarta.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,6 +38,12 @@ public class UserEntity implements UserDetails {
   @Column(name = "role")
   @Enumerated(EnumType.STRING)
   private Role role;
+
+  @OneToMany(mappedBy = "user")
+  private List<PurchaseEntity> purchases;
+
+  @Column(name = "currency")
+  private String currency;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

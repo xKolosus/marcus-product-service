@@ -4,4 +4,9 @@ import com.marcus.subcategory.domain.model.SubCategory;
 import java.util.UUID;
 
 public record Product(
-    UUID id, String name, String description, SubCategory subCategory, String photoUrl) {}
+    UUID id,
+    String name,
+    String description,
+    SubCategory subCategory,
+    String photoUrl,
+    String formattedPrice) {}
