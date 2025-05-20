@@ -39,7 +39,7 @@ public class UserEntity implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<PurchaseEntity> purchases;
 
   @Column(name = "currency")
