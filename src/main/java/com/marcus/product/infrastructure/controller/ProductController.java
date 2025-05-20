@@ -5,10 +5,12 @@ import com.marcus.product.domain.model.Product;
 import com.marcus.product.domain.service.ProductService;
 import com.marcus.product.infrastructure.controller.in.ProductRequest;
 import com.marcus.product.infrastructure.controller.in.ProductSearchRequest;
+import com.marcus.product.infrastructure.controller.in.ProductUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,5 +58,28 @@ public class ProductController {
   public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest request) {
 
     return ResponseEntity.ok(productService.createProduct(request));
+  }
+
+  @PatchMapping
+  @PreAuthorize("hasRole('ADMIN')")
+  @Operation(
+      description = "This updates one product stock",
+      summary = "Only admins are allowed to update products stock!")
+  public ResponseEntity<Product> updateStock(@RequestBody @Valid ProductUpdateRequest request) {
+
+    productService.updateStock(request);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("/{productId}")
+  @PreAuthorize("hasRole('ADMIN')")
+  @Operation(
+      description = "This updates one product",
+      summary = "Only admins are allowed to update products!")
+  public ResponseEntity<Product> updateProduct(
+      @RequestBody @Valid ProductRequest request, @PathVariable UUID productId) {
+
+    return ResponseEntity.ok(productService.updateProduct(request, productId));
   }
 }

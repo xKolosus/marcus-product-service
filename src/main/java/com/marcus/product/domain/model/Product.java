@@ -9,4 +9,4 @@ public record Product(
     String description,
     SubCategory subCategory,
     String photoUrl,
-    String formattedPrice) {}
+    Price price) {}

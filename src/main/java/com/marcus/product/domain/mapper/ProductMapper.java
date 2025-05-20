@@ -1,12 +1,12 @@
 package com.marcus.product.domain.mapper;
 
+import com.marcus.product.domain.model.Price;
 import com.marcus.product.domain.model.Product;
 import com.marcus.product.infrastructure.controller.in.ProductRequest;
 import com.marcus.product.infrastructure.jpa.entity.ProductEntity;
 import com.marcus.subcategory.domain.mapper.SubCategoryMapper;
 import com.marcus.subcategory.infrastructure.jpa.entity.SubCategoryEntity;
 import java.util.List;
-import javax.money.MonetaryAmount;
 import org.javamoney.moneta.Money;
 
 public class ProductMapper {
@@ -25,12 +25,9 @@ public class ProductMapper {
         entity.getDescription(),
         SubCategoryMapper.toDomain(entity.getSubCategory()),
         entity.getPhotoUrl(),
-        getFormattedPrice(entity.getPrice()));
-  }
-
-  private static String getFormattedPrice(MonetaryAmount price) {
-
-    return price.getNumber().doubleValueExact() + price.getCurrency().getCurrencyCode();
+        new Price(
+            entity.getPrice().getNumber().doubleValueExact(),
+            entity.getPrice().getCurrency().getCurrencyCode()));
   }
 
   public static ProductEntity toEntity(ProductRequest request, SubCategoryEntity subCategory) {
@@ -39,8 +36,7 @@ public class ProductMapper {
         .name(request.name())
         .description(request.description())
         .subCategory(subCategory)
-        .price(
-            Money.of(request.monetaryAmount().getNumber(), request.monetaryAmount().getCurrency()))
+        .price(Money.of(request.monetaryAmount().amount(), request.monetaryAmount().currency()))
         .build();
   }
 }

@@ -1,3 +1,5 @@
 package com.marcus.product.domain.model;
 
-public record Price(double amount, String currency) {}
+import org.hibernate.validator.constraints.Currency;
+
+public record Price(double amount, @Currency(value = {"EUR", "GBP", "USD"}) String currency) {}

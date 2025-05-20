@@ -33,14 +33,13 @@ public class JwtService {
     return extractClaim(token, Claims::getSubject);
   }
 
-  public static UUID getLoggedUserId() {
+  public static UserEntity getLoggedUserId() {
 
     if (SecurityContextHolder.getContext().getAuthentication() == null) {
       throw new IllegalArgumentException("No auth has been done!");
     }
 
-    return ((UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-        .getId();
+    return (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
 
   public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

@@ -15,11 +15,9 @@ import com.marcus.purchase.infrastructure.jpa.criteria.PurchaseCriteria;
 import com.marcus.purchase.infrastructure.jpa.mapper.PurchasePaginationMapper;
 import com.marcus.purchase.infrastructure.jpa.repository.PurchaseJpaRepository;
 import com.marcus.purchase.infrastructure.jpa.spec.PurchaseSpecification;
+import com.marcus.subcategory.infrastructure.jpa.entity.SubCategoryEntity;
 import com.marcus.user.infrastructure.jpa.entity.UserEntity;
-import com.marcus.user.infrastructure.jpa.repository.UserJpaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.MonetaryConversions;
 import lombok.RequiredArgsConstructor;
@@ -31,38 +29,9 @@ public class DefaultPurchaseService implements PurchaseService {
 
   private final PurchaseJpaRepository purchaseJpaRepository;
   private final PurchasePaginationMapper purchasePaginatedMapper;
-  private final UserJpaRepository userJpaRepository;
   private final ProductJpaRepository productJpaRepository;
 
-  @Override
-  public Page<Purchase> search(PageRequest request) {
-
-    Optional<UserEntity> user = userJpaRepository.findById(JwtService.getLoggedUserId());
-
-    if (user.isEmpty()) {
-      throw new EntityNotFoundException("User not found!");
-    }
-
-    CurrencyConversion conversion = MonetaryConversions.getConversion(user.get().getCurrency());
-
-    return purchasePaginatedMapper.toDomain(
-        purchaseJpaRepository.findAll(
-            new PurchaseSpecification(new PurchaseCriteria(user.get().getId())),
-            PaginationMapper.toPageRequest(request)),
-        p -> PurchaseMapper.toDomain(p, conversion));
-  }
-
-  @Override
-  public Purchase createPurchase(PurchaseRequest request) {
-
-    Optional<UserEntity> user = userJpaRepository.findById(JwtService.getLoggedUserId());
-
-    if (user.isEmpty()) {
-      throw new EntityNotFoundException("User not found!");
-    }
-
-    List<ProductEntity> products = productJpaRepository.findAllById(request.productIds());
-
+  private void productValidations(List<ProductEntity> products) {
     if (products.stream().map(ProductEntity::getSubCategory).distinct().count() > 1) {
       throw new PurchaseFailedException("More than one subcategory was found, not allowed!");
     }
@@ -71,12 +40,40 @@ public class DefaultPurchaseService implements PurchaseService {
       throw new PurchaseFailedException("There is a product out of stock!");
     }
 
-    CurrencyConversion conversion = MonetaryConversions.getConversion(user.get().getCurrency());
+    if (products.stream()
+        .map(ProductEntity::getSubCategory)
+        .map(SubCategoryEntity::getCategory)
+        .anyMatch(c -> !c.isEnabled())) {
+      throw new PurchaseFailedException("The category is not enabled!");
+    }
+  }
+
+  @Override
+  public Page<Purchase> search(PageRequest request) {
+
+    UserEntity user = JwtService.getLoggedUserId();
+
+    CurrencyConversion conversion = MonetaryConversions.getConversion(user.getCurrency());
+
+    return purchasePaginatedMapper.toDomain(
+        purchaseJpaRepository.findAll(
+            new PurchaseSpecification(new PurchaseCriteria(user.getId())),
+            PaginationMapper.toPageRequest(request)),
+        p -> PurchaseMapper.toDomain(p, conversion));
+  }
+
+  @Override
+  public Purchase createPurchase(PurchaseRequest request) {
+
+    UserEntity user = JwtService.getLoggedUserId();
+
+    List<ProductEntity> products = productJpaRepository.findAllById(request.productIds());
+
+    productValidations(products);
+
+    CurrencyConversion conversion = MonetaryConversions.getConversion(user.getCurrency());
 
     return PurchaseMapper.toDomain(
-        purchaseJpaRepository.save(
-            PurchaseMapper.toEntity(
-                products, userJpaRepository.getReferenceById(user.get().getId()))),
-        conversion);
+        purchaseJpaRepository.save(PurchaseMapper.toEntity(products, user)), conversion);
   }
 }
