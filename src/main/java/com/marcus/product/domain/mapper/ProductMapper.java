@@ -27,7 +27,8 @@ public class ProductMapper {
         entity.getPhotoUrl(),
         new Price(
             entity.getPrice().getNumber().doubleValueExact(),
-            entity.getPrice().getCurrency().getCurrencyCode()));
+            entity.getPrice().getCurrency().getCurrencyCode()),
+        entity.getStock());
   }
 
   public static ProductEntity toEntity(ProductRequest request, SubCategoryEntity subCategory) {

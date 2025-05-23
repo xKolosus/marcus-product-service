@@ -100,4 +100,13 @@ public class DefaultProductService implements ProductService {
 
     productJpaRepository.save(product);
   }
+
+  @Override
+  public Product findById(UUID productId) {
+
+    return ProductMapper.toDomain(
+        productJpaRepository
+            .findById(productId)
+            .orElseThrow(() -> new EntityNotFoundException("Product does not exist")));
+  }
 }

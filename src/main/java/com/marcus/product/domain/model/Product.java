@@ -9,4 +9,5 @@ public record Product(
     String description,
     SubCategory subCategory,
     String photoUrl,
-    Price price) {}
+    Price price,
+    long stock) {}

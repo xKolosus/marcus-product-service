@@ -33,6 +33,15 @@ public class ProductController {
     return ResponseEntity.ok(productService.findAll());
   }
 
+  @GetMapping("/{productId}")
+  @Operation(
+      description = "This retrieves one product per id",
+      summary = "All users are allowed to receive this data.")
+  public ResponseEntity<Product> findById(@PathVariable UUID productId) {
+
+    return ResponseEntity.ok(productService.findById(productId));
+  }
+
   @PostMapping("/search")
   @Operation(
       summary = "This retrieves the products filtered",

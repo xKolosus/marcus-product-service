@@ -18,4 +18,6 @@ public interface ProductService {
   Product updateProduct(ProductRequest request, UUID productId);
 
   void updateStock(ProductUpdateRequest productUpdateRequest);
+
+  Product findById(UUID productId);
 }
