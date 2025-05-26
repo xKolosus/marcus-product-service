@@ -9,7 +9,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,8 +46,22 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails, UUID userId) {
-    return generateToken(Map.of("userId", userId), userDetails);
+  private static Map<String, Object> getExtraClaims(UserEntity userDetails) {
+    return Map.of(
+        "userId",
+        userDetails.getId(),
+        "name",
+        userDetails.getName(),
+        "surname",
+        userDetails.getSurname(),
+        "currency",
+        userDetails.getCurrency(),
+        "role",
+        userDetails.getRole());
+  }
+
+  public String generateToken(UserEntity userDetails) {
+    return generateToken(getExtraClaims(userDetails), userDetails);
   }
 
   public String generateRefreshToken(UserDetails userDetails) {
