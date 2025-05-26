@@ -43,4 +43,11 @@ Cosmin Constantin, Chirila.
 # ADMIN Credentials
 
 Email set in flyway V3.
-Password should be: adminPassword123.
+Password should be: adminPassword123, and email cosminch03@gmail.com.
+
+# Possible improvements
+
+As specification said, there could be limitations per type of product of variations (the current takeover might not be
+the appropriate or expected), instead of what is done, there should be variables persisted in database, to set which
+product can be related to, and the possible customization of each one (color, sizing, etc...), and each customization
+could give an extra cost.
