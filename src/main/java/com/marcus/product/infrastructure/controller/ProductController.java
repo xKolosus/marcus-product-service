@@ -1,6 +1,6 @@
 package com.marcus.product.infrastructure.controller;
 
-import com.marcus.pagination.domain.model.Page;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.product.domain.model.Product;
 import com.marcus.product.domain.service.ProductService;
 import com.marcus.product.infrastructure.controller.in.ProductRequest;
@@ -54,7 +54,7 @@ public class ProductController {
           · By subcategory.
           · By text field (name and description match)
     """)
-  public ResponseEntity<Page<Product>> search(@RequestBody ProductSearchRequest request) {
+  public ResponseEntity<Pageable<Product>> search(@RequestBody ProductSearchRequest request) {
 
     return ResponseEntity.ok(productService.search(request));
   }
@@ -74,7 +74,7 @@ public class ProductController {
   @Operation(
       description = "This updates one product stock",
       summary = "Only admins are allowed to update products stock!")
-  public ResponseEntity<Product> updateStock(@RequestBody @Valid ProductUpdateRequest request) {
+  public ResponseEntity<Void> updateStock(@RequestBody @Valid ProductUpdateRequest request) {
 
     productService.updateStock(request);
 

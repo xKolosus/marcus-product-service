@@ -28,7 +28,7 @@ public class DefaultCategoryService implements CategoryService {
   @Override
   public URI createCategory(CategoryRequest request) throws URISyntaxException {
     return new URI(
-        "http://localhost:3000/"
+        "http://localhost:9999/api/category/"
             + categoryJpaRepository.save(CategoryMapper.toEntity(request)).getId().toString());
   }
 

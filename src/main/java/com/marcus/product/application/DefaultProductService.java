@@ -1,6 +1,6 @@
 package com.marcus.product.application;
 
-import com.marcus.pagination.domain.model.Page;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.pagination.mapper.PaginationMapper;
 import com.marcus.product.domain.mapper.ProductMapper;
 import com.marcus.product.domain.model.Product;
@@ -33,11 +33,12 @@ public class DefaultProductService implements ProductService {
 
   @Override
   public List<Product> findAll() {
+
     return ProductMapper.toDomain(productJpaRepository.findAll());
   }
 
   @Override
-  public Page<Product> search(ProductSearchRequest request) {
+  public Pageable<Product> search(ProductSearchRequest request) {
 
     return productPaginationMapper.toDomain(
         productJpaRepository.findAll(

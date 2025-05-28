@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Page<T> {
+public class Pageable<T> {
 
   private List<T> content;
   private PageCount page;

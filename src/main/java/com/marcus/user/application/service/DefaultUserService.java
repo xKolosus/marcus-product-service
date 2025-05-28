@@ -1,6 +1,6 @@
 package com.marcus.user.application.service;
 
-import com.marcus.pagination.domain.model.Page;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.pagination.mapper.PaginationMapper;
 import com.marcus.user.domain.mapper.UserMapper;
 import com.marcus.user.domain.model.User;
@@ -33,7 +33,7 @@ public class DefaultUserService implements UserService {
   }
 
   @Override
-  public Page<User> getUsers(UserRequest request) {
+  public Pageable<User> getUsers(UserRequest request) {
 
     return userPaginationMapper.toDomain(
         userJpaRepository.findAll(

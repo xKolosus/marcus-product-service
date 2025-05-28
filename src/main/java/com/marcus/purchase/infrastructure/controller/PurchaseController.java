@@ -1,7 +1,7 @@
 package com.marcus.purchase.infrastructure.controller;
 
-import com.marcus.pagination.domain.model.Page;
 import com.marcus.pagination.domain.model.PageRequest;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.purchase.domain.model.Purchase;
 import com.marcus.purchase.domain.service.PurchaseService;
 import com.marcus.purchase.infrastructure.controller.in.PurchaseRequest;
@@ -29,7 +29,7 @@ public class PurchaseController {
           """
     As said in the description, this will retrieve a paginated response for the users purchases.
     """)
-  public ResponseEntity<Page<Purchase>> getPurchases(@RequestBody PageRequest pageRequest) {
+  public ResponseEntity<Pageable<Purchase>> getPurchases(@RequestBody PageRequest pageRequest) {
 
     return ResponseEntity.ok(purchaseService.search(pageRequest));
   }

@@ -45,6 +45,14 @@ Cosmin Constantin, Chirila.
 Email set in flyway V3.
 Password should be: adminPassword123, and email cosminch03@gmail.com.
 
+# Testing
+
+Most recently I've added unit testing (it would've been an improvement to add also integration test with
+TestContainers), but for now this will do the coverage, using JaCoCo to generate a report to see which lines are
+covered, and the possible conditions!
+
+- To see the report you must package the project or install to generate the html! ('mvn clean package will' do the job)
+
 # Possible improvements
 
 As specification said, there could be limitations per type of product of variations (the current takeover might not be

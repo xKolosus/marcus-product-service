@@ -6,6 +6,7 @@ import com.marcus.category.infrastructure.controller.in.CategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class CategoryController {
   @Operation(
       description = "This create a new category",
       summary = "Only admins are allowed to create new categories!")
-  public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryRequest request)
+  public ResponseEntity<URI> createCategory(@RequestBody @Valid CategoryRequest request)
       throws URISyntaxException {
 
     return ResponseEntity.created(categoryService.createCategory(request)).build();

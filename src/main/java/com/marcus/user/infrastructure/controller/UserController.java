@@ -1,6 +1,6 @@
 package com.marcus.user.infrastructure.controller;
 
-import com.marcus.pagination.domain.model.Page;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.user.domain.model.User;
 import com.marcus.user.domain.service.UserService;
 import com.marcus.user.infrastructure.controller.in.UserRequest;
@@ -25,7 +25,7 @@ public class UserController {
       description = "Get all users filtering",
       summary =
           "This will retrieve all the expected users, filtering by a search by and pagination.")
-  public ResponseEntity<Page<User>> searchUser(@RequestBody UserRequest request) {
+  public ResponseEntity<Pageable<User>> searchUser(@RequestBody UserRequest request) {
 
     return ResponseEntity.ok(userService.getUsers(request));
   }

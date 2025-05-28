@@ -1,8 +1,8 @@
 package com.marcus.purchase.application.service;
 
 import com.marcus.auth.application.auxiliar.JwtService;
-import com.marcus.pagination.domain.model.Page;
 import com.marcus.pagination.domain.model.PageRequest;
+import com.marcus.pagination.domain.model.Pageable;
 import com.marcus.pagination.mapper.PaginationMapper;
 import com.marcus.product.infrastructure.jpa.entity.ProductEntity;
 import com.marcus.product.infrastructure.jpa.repository.ProductJpaRepository;
@@ -32,7 +32,12 @@ public class DefaultPurchaseService implements PurchaseService {
   private final ProductJpaRepository productJpaRepository;
 
   private void productValidations(List<ProductEntity> products) {
-    if (products.stream().map(ProductEntity::getSubCategory).distinct().count() > 1) {
+    if (products.stream()
+            .map(ProductEntity::getSubCategory)
+            .map(SubCategoryEntity::getId)
+            .distinct()
+            .count()
+        > 1) {
       throw new PurchaseFailedException("More than one subcategory was found, not allowed!");
     }
 
@@ -49,7 +54,7 @@ public class DefaultPurchaseService implements PurchaseService {
   }
 
   @Override
-  public Page<Purchase> search(PageRequest request) {
+  public Pageable<Purchase> search(PageRequest request) {
 
     UserEntity user = JwtService.getLoggedUserId();
 
